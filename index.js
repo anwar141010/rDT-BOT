@@ -6747,7 +6747,10 @@ if (interaction.isButton() && interaction.customId.startsWith('edit_violation_')
   }
 });
 // تسجيل الدخول مع معالجة الأخطاء
-client.login(config.DISCORD_TOKEN).catch(error => {
+console.log('🔐 Attempting to login to Discord...');
+client.login(config.DISCORD_TOKEN).then(() => {
+  console.log('✅ Login attempt completed successfully');
+}).catch(error => {
   console.error('❌ Failed to login to Discord:', error);
   console.error('❌ Error details:', error.message);
   process.exit(1); // إيقاف العملية إذا فشل تسجيل الدخول
