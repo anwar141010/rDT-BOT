@@ -22,5 +22,8 @@ RUN apt-get update && \
 # تثبيت تبعيات Node.js
 RUN npm install
 
+# فتح المنفذ 3000
+EXPOSE 3000
+
 # أمر بدء تشغيل البوت
 CMD ["npm", "start"] 
