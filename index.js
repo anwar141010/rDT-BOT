@@ -508,6 +508,15 @@ mainServer.listen(mainPort, () => {
   console.log(`🌐 Main server running on port ${mainPort}`);
 });
 
+// إضافة معالجة الأخطاء
+process.on('uncaughtException', (error) => {
+  console.error('❌ Uncaught Exception:', error);
+});
+
+process.on('unhandledRejection', (reason, promise) => {
+  console.error('❌ Unhandled Rejection at:', promise, 'reason:', reason);
+});
+
 const client = new Client({
   intents: [
     GatewayIntentBits.Guilds,
@@ -553,9 +562,19 @@ const commands = [
     .toJSON()
 ];
 
+// إضافة logs لبداية الاتصال
+console.log('🚀 Starting Discord bot connection...');
+console.log(`🔑 Token length: ${config.DISCORD_TOKEN ? config.DISCORD_TOKEN.length : 'NOT FOUND'}`);
+console.log(`🆔 Bot ID: ${config.BOT_ID}`);
+
 client.once('ready', async () => {
   console.log(`✅ Logged in as ${client.user.tag}`);
   console.log(`🔧 حالة البوت: ${getBotStatus() === 'online' ? '🟢 متصل' : '🔴 غير متصل'}`);
+  
+  // إضافة المزيد من الـ logs للتأكد من الاتصال
+  console.log(`🌐 Bot is now connected to Discord!`);
+  console.log(`🎯 Bot ID: ${client.user.id}`);
+  console.log(`📊 Bot is in ${client.guilds.cache.size} servers`);
   
   // إضافة خادم HTTP بسيط للـ port binding
   const http = require('http');
