@@ -496,6 +496,18 @@ function addOrUpdateMilitaryUser(userId, guildId, data) {
   return true;
 }
 
+// إضافة خادم HTTP في البداية (قبل كل شيء)
+const http = require('http');
+const mainServer = http.createServer((req, res) => {
+  res.writeHead(200, { 'Content-Type': 'text/plain' });
+  res.end('MDT Bot main server is running!');
+});
+
+const mainPort = process.env.PORT || 3000;
+mainServer.listen(mainPort, () => {
+  console.log(`🌐 Main server running on port ${mainPort}`);
+});
+
 const client = new Client({
   intents: [
     GatewayIntentBits.Guilds,
@@ -555,6 +567,17 @@ client.once('ready', async () => {
   const PORT = process.env.PORT || 3000;
   server.listen(PORT, () => {
     console.log(`🌐 Server running on port ${PORT}`);
+  });
+  
+  // إضافة خادم HTTP خارج حدث ready (للحماية)
+  const backupServer = http.createServer((req, res) => {
+    res.writeHead(200, { 'Content-Type': 'text/plain' });
+    res.end('MDT Bot backup server is running!');
+  });
+  
+  const backupPort = process.env.PORT || 3000;
+  backupServer.listen(backupPort, () => {
+    console.log(`🌐 Backup server running on port ${backupPort}`);
   });
   
   // حفظ اسم البوت الأصلي إذا لم يكن محفوظاً
