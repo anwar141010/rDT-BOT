@@ -545,6 +545,18 @@ client.once('ready', async () => {
   console.log(`✅ Logged in as ${client.user.tag}`);
   console.log(`🔧 حالة البوت: ${getBotStatus() === 'online' ? '🟢 متصل' : '🔴 غير متصل'}`);
   
+  // إضافة خادم HTTP بسيط للـ port binding
+  const http = require('http');
+  const server = http.createServer((req, res) => {
+    res.writeHead(200, { 'Content-Type': 'text/plain' });
+    res.end('MDT Bot is running!');
+  });
+  
+  const PORT = process.env.PORT || 3000;
+  server.listen(PORT, () => {
+    console.log(`🌐 Server running on port ${PORT}`);
+  });
+  
   // حفظ اسم البوت الأصلي إذا لم يكن محفوظاً
   if (!originalBotName) {
     originalBotName = client.user.username;
