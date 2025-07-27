@@ -6746,7 +6746,8 @@ if (interaction.isButton() && interaction.customId.startsWith('edit_violation_')
     console.error('خطأ في التعامل مع التفاعلات:', e);
   }
 });
-// تسجيل الدخول مع معالجة الأخطاء
+
+// تسجيل الدخول مع معالجة الأخطاء (في النهاية الصحيحة)
 console.log('🔐 Attempting to login to Discord...');
 client.login(config.DISCORD_TOKEN).then(() => {
   console.log('✅ Login attempt completed successfully');
