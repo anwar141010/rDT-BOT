@@ -567,6 +567,19 @@ console.log('🚀 Starting Discord bot connection...');
 console.log(`🔑 Token length: ${config.DISCORD_TOKEN ? config.DISCORD_TOKEN.length : 'NOT FOUND'}`);
 console.log(`🆔 Bot ID: ${config.BOT_ID}`);
 
+// إضافة معالجة أخطاء Discord.js
+client.on('error', (error) => {
+  console.error('❌ Discord Client Error:', error);
+});
+
+client.on('warn', (info) => {
+  console.warn('⚠️ Discord Client Warning:', info);
+});
+
+client.on('disconnect', () => {
+  console.log('🔌 Discord Client Disconnected');
+});
+
 client.once('ready', async () => {
   console.log(`✅ Logged in as ${client.user.tag}`);
   console.log(`🔧 حالة البوت: ${getBotStatus() === 'online' ? '🟢 متصل' : '🔴 غير متصل'}`);
@@ -6733,4 +6746,9 @@ if (interaction.isButton() && interaction.customId.startsWith('edit_violation_')
     console.error('خطأ في التعامل مع التفاعلات:', e);
   }
 });
-client.login(config.DISCORD_TOKEN);
+// تسجيل الدخول مع معالجة الأخطاء
+client.login(config.DISCORD_TOKEN).catch(error => {
+  console.error('❌ Failed to login to Discord:', error);
+  console.error('❌ Error details:', error.message);
+  process.exit(1); // إيقاف العملية إذا فشل تسجيل الدخول
+});
